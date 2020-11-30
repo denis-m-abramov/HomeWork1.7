@@ -168,6 +168,100 @@ ellipse2.checksTheValue()
 
 
 //: 1.4 Создайте по экземпляру каждого класса, кроме `Shape`, проинициализируйте свойства `height` и `width` или `radius` для каждого класса в любые значения и вызовите у каждого экземпляра класса метод `description`
+//Способ 2 через протокол (протокол-ориентированное программирование)
+
+protocol Figure {
+    var square: Float { get }
+    var perimeter: Float { get }
+    var description: String { get }
+}
+
+class CircleNew: Figure {
+    var square: Float { Float.pi * pow(radius, 2) }
+    var perimeter: Float { 2 * Float.pi * radius }
+    var description: String { "Площадь фигуры окружность равна \(numberFormatter.string(from: NSNumber(value: square))!), периметр (длина) равен \(numberFormatter.string(from: NSNumber(value: perimeter))!)" }
+    
+    lazy var numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        numberFormatter.roundingMode = NumberFormatter.RoundingMode.up
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+        return numberFormatter
+    }()
+    
+    private(set) var radius: Float
+    
+    init(radius: Float) {
+        self.radius = radius
+    }
+}
+
+
+
+class RectangleNew: Figure {
+    var square: Float { height * width }
+    var perimeter: Float { 2 * (height + width) }
+    var description: String { "Площадь фигуры прямоугольник равна \(numberFormatter.string(from: NSNumber(value: square))!), периметр (длина) равен \(numberFormatter.string(from: NSNumber(value: perimeter))!)" }
+    
+    lazy var numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        numberFormatter.roundingMode = NumberFormatter.RoundingMode.up
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+        return numberFormatter
+    }()
+    
+    private(set) var height: Float
+    private(set) var width: Float
+    
+    init(height: Float, width: Float) {
+        self.height = height
+        self.width = width
+    }
+}
+
+
+class EllipseNew: Figure {
+    var square: Float { Float.pi * height * width }
+    var perimeter: Float { (4 * Float.pi * width * height + width - height) / (width + height) }
+    var description: String { "Площадь фигуры эллипс равна \(numberFormatter.string(from: NSNumber(value: square))!), периметр (длина) равен \(numberFormatter.string(from: NSNumber(value: perimeter))!)" }
+    
+    lazy var numberFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        numberFormatter.roundingMode = NumberFormatter.RoundingMode.up
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.minimumFractionDigits = 2
+        return numberFormatter
+    }()
+    
+    private(set) var height: Float
+    private(set) var width: Float
+    
+    init(height: Float, width: Float) {
+        self.height = height
+        self.width = width
+    }
+}
+
+
+let circle3 = CircleNew(radius: 5)
+print(circle3.square)
+print(circle3.perimeter)
+print(circle3.description)
+
+let rectangle3 = RectangleNew(height: 2, width: 5)
+print(rectangle3.square)
+print(rectangle3.perimeter)
+print(rectangle3.description)
+
+let ellipse3 = EllipseNew(height: 3, width: 4)
+print(ellipse3.square)
+print(ellipse3.perimeter)
+print(ellipse3.description)
+
 
 
 
